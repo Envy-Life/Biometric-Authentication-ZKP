@@ -1,0 +1,9 @@
+import "hashes/sha256/512bitPacked" as sha256packed;
+
+const field SECRET = 1;
+def main(private field[2] privKey, private field bioKey, private field userKey) {
+    field[2] h = sha256packed([SECRET, SECRET,bioKey, userKey]);
+    assert(h[0] == privKey[0]);
+    assert(h[1] == privKey[1]);
+    return;
+}
