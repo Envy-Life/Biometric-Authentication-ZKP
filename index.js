@@ -69,7 +69,7 @@ app.post('/generate', async function(req, res) {
                 X : proof.proof.c[0],
                 Y : proof.proof.c[1]
             },
-        }).call({
+        }, proof.inputs).call({
             from: accounts[0],
         })
         if (result == true) {

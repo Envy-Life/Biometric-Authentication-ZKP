@@ -5,6 +5,10 @@ const web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:8545"));
 
 
 
+async function init() {
+
+
+
 execSync('cd verifierZKP && zokrates compile -i verifier.zok && zokrates setup && zokrates export-verifier && solcjs verifier.sol --bin --abi -o ./compiled', function(error, stdout, stderr) {
     if (error !== null) {
          console.log('exec error: ' + error);
@@ -23,8 +27,6 @@ let genabi=fs.readFileSync('./generatorZKP/compiled/verifier_sol_Verifier.abi').
 
 let verContract = new web3.eth.Contract(JSON.parse(verabi))
 let genContract = new web3.eth.Contract(JSON.parse(genabi))
-
-async function init() {
     
 const accounts = await web3.eth.getAccounts();
 console.log(accounts);
@@ -47,8 +49,6 @@ genContract = await genContract.deploy({
 })
 fs.appendFileSync("./address.txt" , genContract.options.address )
 
-fs.rmSync("./verifierZKP/compiled", { recursive: true, force: true });
-fs.rmSync("./generatorZKP/compiled", { recursive: true, force: true });
 fs.unlinkSync('./verifierZKP/verifier.sol')
 fs.unlinkSync('./generatorZKP/verifier.sol')
 // UNCOMMENT BEFORE PRODUCTION
@@ -56,10 +56,6 @@ fs.unlinkSync('./generatorZKP/verifier.sol')
 // fs.unlinkSync('./generatorZKP/generator.zok')
 fs.unlinkSync('./verifierZKP/abi.json')
 fs.unlinkSync('./generatorZKP/abi.json')
-fs.unlinkSync("./verifierZKP/proving.key")
-fs.unlinkSync("./verifierZKP/verification.key")
-fs.unlinkSync("./generatorZKP/proving.key")
-fs.unlinkSync("./generatorZKP/verification.key")
 
 }
 
